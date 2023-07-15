@@ -9,36 +9,42 @@ def deepface_test(image1, image2, model, metric, be):
   df['time'] = end - now
   return df
 
-model = "ArcFace"
+photo = ["laudry.png", "rizal.jpeg", "ferdy.jpg"]
+model = "Facenet"
 detectorBE = "retinaface"
 metric = "cosine"
 
-data = []
-for i in range(15):
-  img = 1 + i
-  imageName = str(img) + ".jpeg"
+for i in range(3):
+  selectPhoto = photo[i]
+  data = []
   
-  image1 = "laudry.png"
-  image2 = "dataset/laudry/masker/" + imageName
-  print(image2)
+  for i in range(15):
+    img = 1 + i
+    imageName = str(img) + ".jpeg"
+    
+    image1 = selectPhoto
+    image2 = "dataset/laudry/glass/" + imageName
+    print(image2)
+    
+    result = deepface_test(image1=image1, image2=image2, model=model, metric=metric, be= detectorBE)
+    obj = {
+      "verified": result['verified'],
+      "distance": result['distance'],
+      "threshold": result['threshold'],
+      "model": result['model'],
+      "detector": result['detector_backend'],
+      "similarity_metric": result['similarity_metric'],
+      "time": result['time']
+    }
+    
+    data.append(obj)
   
-  result = deepface_test(image1=image1, image2=image2, model=model, metric=metric, be= detectorBE)
-  obj = {
-    "verified": result['verified'],
-    "distance": result['distance'],
-    "threshold": result['threshold'],
-    "model": result['model'],
-    "detector": result['detector_backend'],
-    "similarity_metric": result['similarity_metric'],
-    "time": result['time']
-  }
-  
-  data.append(obj)
-  
-df = pd.DataFrame(data)
-namaExcel = model + "_" + detectorBE + "_" + metric + ".xlsx"
-sheetName = 'DataSheet'
+  df = pd.DataFrame(data)
+  namaExcel = selectPhoto + "_" + model + "_" + detectorBE + "_" + metric + ".xlsx"
+  sheetName = 'DataSheet'
 
-df.to_excel(namaExcel, sheet_name=sheetName, index=False)
+  df.to_excel(namaExcel, sheet_name=sheetName, index=False)
+  
+print("done")
       
 
