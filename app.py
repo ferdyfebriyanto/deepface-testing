@@ -10,16 +10,16 @@ def deepface_test(image1, image2, model, metric, be):
   return df
 
 model = "ArcFace"
-detectorBE = "retinaface"
+detectorBE = "mtcnn"
 metric = "cosine"
 
 data = []
 for i in range(15):
   img = 1 + i
-  imageName = str(img) + ".jpeg"
+  imageName = str(img) + ".jpg"
   
-  image1 = "laudry.png"
-  image2 = "dataset/laudry/masker/" + imageName
+  image1 = "ferdy.jpg"
+  image2 = "dataset/ferdy/glasses/" + imageName
   print(image2)
   
   result = deepface_test(image1=image1, image2=image2, model=model, metric=metric, be= detectorBE)
